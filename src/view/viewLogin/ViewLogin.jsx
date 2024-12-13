@@ -26,8 +26,12 @@ const ViewLogin = () => {
     setIsError("");
     setIsLoadingView(true);
     if (data.usuario !== "" && data.contrasena !== "") {
+      const params = new URLSearchParams();
+      params.append("usuario", data.usuario);
+      params.append("contrasena", data.contrasena);
+
       axios
-        .post(`${import.meta.env.VITE_URL}/login`, data)
+        .post(`${import.meta.env.VITE_URL}/validar`, params)
         .then((res) => {
           if (res.data === "Usuario o contraseña incorrectos") {
             setIsError(res.data);
