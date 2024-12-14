@@ -25,7 +25,7 @@ const ViewUser = ({ setDataUsuarios, usuariosState, setStatus }) => {
 
     const config = {
       headers: {
-        Authorization: `Bearer ${cookie.get("token")}`,
+        //Authorization: `Bearer ${cookie.get("token")}`,
         "Content-Type": "application/json",
       },
       method: "GET",
@@ -43,7 +43,7 @@ const ViewUser = ({ setDataUsuarios, usuariosState, setStatus }) => {
         toast.error("Error al obtener los usuarios");
         setIsLoadingView(false);
       });
-  }, []);
+  }, [usuarios, setDataUsuarios]);
 
   const handleDelete = () => {
     const config = {
@@ -52,7 +52,7 @@ const ViewUser = ({ setDataUsuarios, usuariosState, setStatus }) => {
         isSelectItem.idUsuario
       }`,
       headers: {
-        Authorization: `Bearer ${cookie.get("token")}`,
+        //Authorization: `Bearer ${cookie.get("token")}`,
         "Content-Type": "application/json",
       },
     };
@@ -144,25 +144,26 @@ const ViewUser = ({ setDataUsuarios, usuariosState, setStatus }) => {
             </thead>
             <tbody>
               {usuarios?.map((user) => (
-                <tr
-                  key={user?.usuario}
-                  className={`border-solid border-black/30 border-b-[1px] p-2 text-center ${
-                    isSelectItem === user ? "bg-black/10" : ""
-                  }`}
-                  onClick={() => setIsSelectItem(user)}
-                >
-                  <td>{user?.nombre}</td>
-                  <td>{user?.rol}</td>
-                  <td className="hidden lg:table-cell">{user?.telefono}</td>
-                  <td className="hidden lg:table-cell">{user?.correo}</td>
-                  <td className="hidden lg:table-cell">{user?.rfc}</td>
-                  <td>{user?.sueldo}</td>
-                  <td>{user?.usuario}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              <tr
+                key={user?.usuario}
+                className={`border-solid border-black/30 border-b-[1px] p-2 text-center ${
+                  isSelectItem === user ? "bg-black/10" : ""
+                }`}
+                onClick={() => setIsSelectItem(user)}
+              >
+                {/* Aquí se accede correctamente a los datos dentro de persona */}
+                <td>{user?.persona?.nombre}</td>
+                <td>{user?.persona?.rol?.nombre}</td>
+                <td className="hidden lg:table-cell">{user?.persona?.telefono}</td>
+                <td className="hidden lg:table-cell">{user?.persona?.correo}</td>
+                <td className="hidden lg:table-cell">{user?.persona?.rfc}</td>
+                <td>{user?.sueldo}</td>
+                <td>{user?.usuario}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       </div>
     </>
   );
