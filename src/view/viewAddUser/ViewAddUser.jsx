@@ -20,12 +20,20 @@ const ViewAddUser = () => {
     tipo: "",
     error: false,
   });
+  const [rolSeleccionado, setRolSeleccionado] = useState('');
+  const roles = [
+    { id: "a56f7c83-2b5f-4019-b73c-9f6f96c25123", nombre: "Vendedor" },
+    { id: "d4e9f052-e2d2-4a4c-b225-7a69b0c9d0b3", nombre: "Administrador" },
+    { id: "1c5b795a-3d41-4c3d-b10e-92c14a7f52f3", nombre: "Gerente" }
+  ];
   const cookie = new Cookies();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
   const onChangeSelect = (e) => {
-    setTipoView(e.target.value);
+    const rolNombre = e.target.value;
+    const rolSeleccionado = roles.find(rol => rol.nombre === rolNombre);
+    setRolSeleccionado(rolSeleccionado); 
   };
 
   const onSubmit = (data) => {
@@ -34,34 +42,38 @@ const ViewAddUser = () => {
       return;
     } */
 
-    const dataToSend = {
-      ...data,
-      usuario: {
+      const dataToSend = {
         usuario: data.usuario,
         contrasena: data.contrasena,
         sueldo: data.sueldo,
-      },
-      persona:{
-        nombre: data.nombre,
-        telefono: data.telefono,
-        correo: data.correo,
-        rfc: data.rfc,
-      },
-      direccion: {
-        calle: data.calle,
-        numero: data.numero,
-        colonia: data.colonia,
-        ciudad: data.ciudad,
-      },
-      tipo: tipoView,
-    };
+        estado: data.estado || "Disponible",
+        persona: {
+          nombre: data.nombre,
+          telefono: data.telefono,
+          correo: data.correo,
+          rfc: data.rfc,
+          estado: data.estado || "Disponible",
+          rol: {
+            id: rolSeleccionado.id,  
+            nombre: rolSeleccionado.nombre  
+          },  
+          direccion: {
+            calle: data.calle,
+            numero: data.numero,
+            colonia: data.colonia,
+            ciudad: data.ciudad
+          }
+        }
+      };
+      
+      
 
     const conf = {
       method: "POST",
       url: `${import.meta.env.VITE_URL}/usuario/agregar`,
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${cookie.get("token")}`,
+        //Authorization: `Bearer ${cookie.get("token")}`,
       },
       body: JSON.stringify(dataToSend),
       data: dataToSend,
@@ -218,7 +230,9 @@ const ViewAddUser = () => {
                 Tipo de empleado
               </label>
 
-              <select
+              <select 
+                id="rol"
+                value={rolSeleccionado.nombre || ''}
                 onChange={onChangeSelect}
                 className="shadow-md rounded-md p-2 w-full outline-none pr-8 lg:h-[44px] text-[14px]"
               >
