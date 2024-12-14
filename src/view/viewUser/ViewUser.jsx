@@ -29,7 +29,7 @@ const ViewUser = ({ setDataUsuarios, usuariosState, setStatus }) => {
         "Content-Type": "application/json",
       },
       method: "GET",
-      url: `${import.meta.env.VITE_URL}/usuario/obtener-usuarios`,
+      url: `${import.meta.env.VITE_URL}/usuario/obtener-todas`,
     };
 
     setIsLoadingView(true);
