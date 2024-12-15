@@ -23,34 +23,51 @@ const ViewCreateSuplier = () => {
   const cookie = new Cookies();
 
   const handleSubmit = (data) => {
+    const dataToSend = {
+      nombre: data.nombre,
+      telefono: data.telefono,
+      correo: data.correo,
+      rfc: data.rfc,
+      estado: data.estado || "Disponible",
+      direccion: {
+        calle: data.calle,
+        numero: data.numero,
+        colonia: data.colonia,
+        ciudad: data.ciudad
+      }
+    };
+
+    console.log("Datos enviados:", data);
     const config = {
       method: "POST",
       url: `${import.meta.env.VITE_URL}/proveedor/agregar`,
       headers: {
-        Authorization: `Bearer ${cookie.get("token")}`,
+        //Authorization: `Bearer ${cookie.get("token")}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(data),
-      data,
+      body: JSON.stringify(dataToSend),
+      data: dataToSend,
     };
 
     axios
       .request(config)
       .then((response) => {
-        console.log(response);
-        if (
-          response.status === 201 &&
-          response.data.message === "Proveedor registrado correctamente"
-        ) {
-          navigate("/supliers");
-        } else if (
-          response.data.message === "El proveedor ya se encuentra en existencia"
-        ) {
+        console.log(response); // Verifica la respuesta del backend
+        if (response.status === 201) {
+          // Accede a 'mensaje' en lugar de 'message'
+          if (response.data.mensaje === "Proveedor registrado correctamente") {
+            navigate("/supliers");
+          } else {
+            toast.error("Error inesperado: " + response.data.mensaje);
+          }
+        } else if (response.status === 409 && response.data.mensaje === "El proveedor ya se encuentra en existencia") {
           toast.error("El proveedor ya se encuentra en existencia");
+        } else {
+          toast.error("Error inesperado al crear el proveedor");
         }
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error);  // Detalles del error
         toast.error("Error al crear el proveedor");
       });
   };
