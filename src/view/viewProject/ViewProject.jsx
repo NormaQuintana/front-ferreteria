@@ -29,9 +29,10 @@ const ViewProject = ({ setDataProyectos, setStatus, proyectosState }) => {
   const [idProyecto, setIdProyecto] = useState("");
 
   const filterProyecto = proyectos.filter((proyecto) => {
-    return proyecto.nombre
-      .toLowerCase()
-      .includes(methods.watch("busqueda")?.toLowerCase());
+    const nombre = proyecto.nombre || "";  // Si proyecto.nombre es undefined, se asigna una cadena vacía
+    const busqueda = methods.watch("busqueda") || "";  // Si methods.watch("busqueda") es undefined, se asigna una cadena vacía
+  
+    return nombre.toLowerCase().includes(busqueda.toLowerCase());
   });
 
   const changeStateModal = () => {
@@ -47,7 +48,7 @@ const ViewProject = ({ setDataProyectos, setStatus, proyectosState }) => {
       method: "DELETE",
       url: `${import.meta.env.VITE_URL}/obra/eliminar?id=${idProyecto}`,
       headers: {
-        Authorization: `Bearer ${cookie.get("token")}`,
+        //Authorization: `Bearer ${cookie.get("token")}`,
         "Content-Type": "application/json",
       },
     };
@@ -88,9 +89,9 @@ const ViewProject = ({ setDataProyectos, setStatus, proyectosState }) => {
     setStatus("loading");
     const config = {
       method: "GET",
-      url: `${import.meta.env.VITE_URL}/obra/obtener`,
+      url: `${import.meta.env.VITE_URL}/proyecto/obtener-todas`,
       headers: {
-        Authorization: `Bearer ${cookie.get("token")}`,
+        //Authorization: `Bearer ${cookie.get("token")}`,
         "Content-Type": "application/json",
       },
     };
@@ -99,6 +100,7 @@ const ViewProject = ({ setDataProyectos, setStatus, proyectosState }) => {
       .request(config)
       .then((response) => {
         if (response.status === 200) {
+          console.log(response.data);
           setDataProyectos(response.data);
           setStatus("succeeded");
           setIsLoading(false);
@@ -109,7 +111,7 @@ const ViewProject = ({ setDataProyectos, setStatus, proyectosState }) => {
         setStatus("error");
         toast.error("Error al obtener los proyectos");
       });
-  }, []);
+  }, [setDataProyectos, setStatus, proyectos.length]);
 
   return (
     <>

@@ -2,21 +2,17 @@ import { MdDelete, MdEdit } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
 const CardPresentationProject = ({ proyecto, showModal, changeStateID }) => {
+  console.log(proyecto);
   const {
     idProyecto,
-    nombre,
-    telefono,
-    correo,
-    rfc,
-    calle_persona,
-    numero_persona,
-    colonia_persona,
-    ciudad_persona,
-    calle_proyecto,
-    numero_proyecto,
-    colonia_proyecto,
-    ciudad_proyecto,
+    persona,
+    direccionProyecto,
   } = proyecto;
+
+  // Desestructurar datos de la persona y la dirección del proyecto
+  const { nombre, telefono, correo } = persona || {};
+  const { calle: callePersona, numero: numeroPersona, colonia: coloniaPersona, ciudad: ciudadPersona } = persona?.direccionPersona || {};
+  const { calle: calleProyecto, numero: numeroProyecto, colonia: coloniaProyecto, ciudad: ciudadProyecto } = direccionProyecto || {};
 
   const handleClic = () => {
     changeStateID(idProyecto);
@@ -38,7 +34,6 @@ const CardPresentationProject = ({ proyecto, showModal, changeStateID }) => {
           <p>Nombre: {nombre || "N/A"}</p>
           <p>Teléfono: {telefono || "N/A"} </p>
           <p>Correo: {correo || "N/A"}</p>
-          <p>RFC: {rfc || "N/A"}</p>
         </article>
       </div>
 
@@ -47,16 +42,16 @@ const CardPresentationProject = ({ proyecto, showModal, changeStateID }) => {
           <article>
             <h3 className="font-bold text-[15px]">Dirección del encargado</h3>
             <p className="text-[12px]">
-              {calle_persona || "N/A"} {numero_persona || "N/A"}{" "}
-              {colonia_persona || "N/A"} {ciudad_persona || "N/A"}
+              {callePersona || "N/A"} {numeroPersona || "N/A"}{" "}
+              {coloniaPersona || "N/A"} {ciudadPersona || "N/A"}
             </p>
           </article>
 
           <article>
             <h3 className="font-bold text-[15px]">Dirección del Proyecto</h3>
             <p className="text-[12px]">
-              {calle_proyecto || "N/A"} {numero_proyecto || "N/A"}{" "}
-              {colonia_proyecto || "N/A"} {ciudad_proyecto || "N/A"}
+              {calleProyecto || "N/A"} {numeroProyecto || "N/A"}{" "}
+              {coloniaProyecto || "N/A"} {ciudadProyecto || "N/A"}
             </p>
           </article>
         </div>
