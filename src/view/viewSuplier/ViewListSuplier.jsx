@@ -66,33 +66,30 @@ const ViewListSuplier = ({
   const handleDeleteSuplier = () => {
     const config = {
       method: "DELETE",
-      url: `${
-        import.meta.env.VITE_URL
-      }/proveedor/eliminar?id=${idSelectSuplier}`,
+      url: `${import.meta.env.VITE_URL}/proveedor/eliminar/${idSelectSuplier}`,
       headers: {
-        Authorization: `Bearer ${cookie.get("token")}`,
+        //Authorization: `Bearer ${cookie.get("token")}`,
         "Content-Type": "application/json",
       },
     };
 
     axios
-      .request(config)
-      .then((data) => {
-        if (data.data.message === "Proveedor eliminado correctamente") {
-          const newItems =
-            proveedores.length > 0 &&
-            proveedores?.filter((i) => {
-              return i.idPersona !== idSelectSuplier;
-            });
-          setDataProveedores(newItems);
-          setStatus("success");
-          setOpenModal(false);
-          toast.success("Proveedor eliminado correctamente");
-        }
-      })
-      .catch(() => {
-        toast.error("Error al eliminar el proveedor");
-      });
+    .request(config)
+    .then((response) => {
+      if (response.status === 200) { 
+        const newItems =
+          proveedores.length > 0 &&
+          proveedores?.filter((i) => i.idPersona !== idSelectSuplier);
+        setDataProveedores(newItems);
+        setStatus("success");
+        setOpenModal(false);
+        toast.success(response.data); 
+      }
+    })
+    .catch((error) => {
+      console.error(error); 
+      toast.error("Error al eliminar el proveedor");
+    });
   };
 
   return (
