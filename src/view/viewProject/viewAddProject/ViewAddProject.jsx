@@ -25,16 +25,40 @@ const ViewAddProject = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = (data) => {
+
+    const dataToSend = {
+      persona: {
+        nombre: data.nombre,
+        telefono: data.telefono,
+        correo: data.correo,
+        rfc: data.rfc,
+        estado: data.estado || "Disponible",
+        direccion: {
+          calle: data.calle,
+          numero: data.numero,
+          colonia: data.colonia,
+          ciudad: data.ciudad
+        }
+      },
+      direccion: {
+        calle: data.calle,
+        numero: data.numero,
+        colonia: data.colonia,
+        ciudad: data.ciudad
+      },
+        descripcion: data.descripcion
+    };
+
     setIsLoading(true);
     const config = {
       method: "POST",
-      url: `${import.meta.env.VITE_URL}/obra/agregar`,
+      url: `${import.meta.env.VITE_URL}/proyecto/agregar`,
       headers: {
-        Authorization: `Bearer ${cookie.get("token")}`,
+        //Authorization: `Bearer ${cookie.get("token")}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(data),
-      data,
+      body: JSON.stringify(dataToSend),
+      data: dataToSend,
     };
 
     axios
@@ -42,7 +66,7 @@ const ViewAddProject = () => {
       .then((response) => {
         if (
           response.data.status === 200 &&
-          response.data.mensaje === "Obra guardada correctamente"
+          response.data.mensaje === "Proyecto agregado con éxito"
         ) {
           navigate("/proyecto");
         } else if (
