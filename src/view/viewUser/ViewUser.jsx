@@ -18,6 +18,11 @@ const ViewUser = ({ setDataUsuarios, usuariosState, setStatus }) => {
   const [isLoadingDelete, setIsLoadingDelete] = useState(false);
   const [isSelectItem, setIsSelectItem] = useState(null);
 
+  const onSelectUser = (user) => {
+    console.log(user);
+    setIsSelectItem(user);  // Actualiza el usuario seleccionado
+  };
+
   useEffect(() => {
     if (usuarios.length > 0) {
       return;
@@ -34,23 +39,22 @@ const ViewUser = ({ setDataUsuarios, usuariosState, setStatus }) => {
 
     setIsLoadingView(true);
     axios
-      .request(config)
-      .then((response) => {
-        setDataUsuarios(response.data);
-        setIsLoadingView(false);
-      })
-      .catch(() => {
-        toast.error("Error al obtener los usuarios");
-        setIsLoadingView(false);
-      });
-  }, [usuarios, setDataUsuarios]);
-
+    .request(config)
+    .then((response) => {
+      // Filtra los usuarios que tienen estado "Disponible"
+      const usuariosActivos = response.data.filter(user => user.estado === "Disponible");
+      setDataUsuarios(usuariosActivos);
+      setIsLoadingView(false);
+    })
+    .catch(() => {
+      toast.error("Error al obtener los usuarios");
+      setIsLoadingView(false);
+    });
+}, [usuarios, setDataUsuarios]);
   const handleDelete = () => {
     const config = {
       method: "PUT",
-      url: `${import.meta.env.VITE_URL}/usuario/eliminar?idUsuario=${
-        isSelectItem.idUsuario
-      }`,
+      url: `${import.meta.env.VITE_URL}/usuario/eliminar/${isSelectItem.idUsuario}`,
       headers: {
         //Authorization: `Bearer ${cookie.get("token")}`,
         "Content-Type": "application/json",
@@ -59,27 +63,28 @@ const ViewUser = ({ setDataUsuarios, usuariosState, setStatus }) => {
 
     setIsLoadingDelete(true);
     axios
-      .request(config)
-      .then((response) => {
-        if (response.data === "Usuario eliminado") {
-          const newItems =
-            usuarios.length > 0 &&
-            usuarios?.filter((i) => {
-              return i.idUsuario !== isSelectItem.idUsuario;
-            });
-          setDataUsuarios(newItems);
-          setIsSelectItem(null);
-          setIsLoadingDelete(false);
-          setShowModal(false);
-          toast.success("Usuario eliminado correctamente");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
+    .request(config)
+    .then((response) => {
+      if (response.data === "Usuario eliminado") {
+        const newItems =
+          usuarios.length > 0 &&
+          usuarios.filter((i) => i.idUsuario !== isSelectItem.idUsuario);
 
+        setDataUsuarios(newItems);
+        setIsSelectItem(null);
+        toast.success("Usuario eliminado correctamente");
+      } else {
         toast.error("Error al eliminar el usuario");
-        setShowModal(false);
-      });
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      toast.error("Error al eliminar el usuario");
+    })
+    .finally(() => {
+      setIsLoadingDelete(false);
+      setShowModal(false);  // Cierra el modal después de la eliminación (ya sea exitosa o no)
+    });
   };
 
   return (
@@ -149,7 +154,7 @@ const ViewUser = ({ setDataUsuarios, usuariosState, setStatus }) => {
                 className={`border-solid border-black/30 border-b-[1px] p-2 text-center ${
                   isSelectItem === user ? "bg-black/10" : ""
                 }`}
-                onClick={() => setIsSelectItem(user)}
+                onClick={() => onSelectUser(user)}
               >
                 {/* Aquí se accede correctamente a los datos dentro de persona */}
                 <td>{user?.persona?.nombre}</td>
