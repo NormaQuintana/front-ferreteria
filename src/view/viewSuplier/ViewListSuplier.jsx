@@ -39,9 +39,9 @@ const ViewListSuplier = ({
     setStatus("loading");
     const config = {
       method: "GET",
-      url: `${import.meta.env.VITE_URL}/proveedor/obtener`,
+      url: `${import.meta.env.VITE_URL}/proveedor/obtener-todas`,
       headers: {
-        Authorization: `Bearer ${cookie.get("token")}`,
+        //Authorization: `Bearer ${cookie.get("token")}`,
         "Content-Type": "application/json",
       },
     };
@@ -149,21 +149,19 @@ const ViewListSuplier = ({
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 p-5 bg-gray-100 w-full mx-auto justify-center">
           {filterProveedor.length > 0 &&
             filterProveedor?.map((proveedor, index) => {
+              const { nombre, telefono, correo, idPersona, direccion } = proveedor;
+              const { calle, numero, colonia, ciudad } = direccion || {};
               return (
                 <Card
                   key={index}
-                  nombre={proveedor.nombre}
-                  telefono={proveedor.telefono}
-                  correo={proveedor.correo}
-                  id={proveedor.idPersona}
+                  nombre={nombre}
+                  telefono={telefono}
+                  correo={correo}
+                  id={idPersona}
                   direccion={
-                    proveedor.calle +
-                    " #" +
-                    proveedor.numero +
-                    " " +
-                    proveedor.colonia +
-                    ", " +
-                    proveedor.ciudad
+                    direccion
+                      ? `${calle} #${numero}, ${colonia}, ${ciudad}`
+                      : "Dirección no disponible"
                   }
                   handleModal={() => {
                     setOpenModal(true);
