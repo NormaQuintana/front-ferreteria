@@ -39,11 +39,11 @@ const ViewProducts = ({ setDataProducts, products, setStatus }) => {
   useEffect(() => {
     const config = {
       headers: {
-        Authorization: `Bearer ${cookie.get("token")}`,
+        //Authorization: `Bearer ${cookie.get("token")}`,
         "Content-Type": "application/json",
       },
       method: "GET",
-      url: `${import.meta.env.VITE_URL}/producto/obtener-productos`,
+      url: `${import.meta.env.VITE_URL}/producto/obtener-todas`,
     };
 
     setStatus("loading");
@@ -64,7 +64,7 @@ const ViewProducts = ({ setDataProducts, products, setStatus }) => {
     if (!selectedProduct) return;
     const config = {
       headers: {
-        Authorization: `Bearer ${cookie.get("token")}`,
+        //Authorization: `Bearer ${cookie.get("token")}`,
         "Content-Type": "application/json",
       },
       method: "DELETE",
@@ -264,10 +264,10 @@ const ViewProducts = ({ setDataProducts, products, setStatus }) => {
                     Información del Proveedor
                   </h2>
                   <h2>
-                    Nombre del Proveedor: {selectedProduct?.nombrePersona}
+                  Nombre del Proveedor: {selectedProduct?.persona?.nombre}
                   </h2>
-                  <p>Teléfono: {selectedProduct?.telefono}</p>
-                  <p>Correo: {selectedProduct?.correo}</p>
+                  <p>Teléfono: {selectedProduct?.persona?.telefono}</p>
+                  <p>Correo: {selectedProduct?.persona?.correo}</p>
                 </div>
               </div>
             ) : (
