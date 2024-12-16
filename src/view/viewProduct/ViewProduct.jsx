@@ -68,9 +68,7 @@ const ViewProducts = ({ setDataProducts, products, setStatus }) => {
         "Content-Type": "application/json",
       },
       method: "DELETE",
-      url: `${import.meta.env.VITE_URL}/producto/eliminar-producto?id=${
-        selectedProduct.idProducto
-      }`,
+      url: `${import.meta.env.VITE_URL}/producto/eliminar/${selectedProduct.idProducto}`,
     };
 
     setStatus("loading");
