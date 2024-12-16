@@ -2,7 +2,7 @@ import { MdDelete, MdEdit } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
 const CardPresentationProject = ({ proyecto, showModal, changeStateID }) => {
-  console.log(proyecto);
+  //console.log(proyecto);
   const {
     idProyecto,
     persona,
