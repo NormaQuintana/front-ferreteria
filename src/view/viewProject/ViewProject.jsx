@@ -46,7 +46,7 @@ const ViewProject = ({ setDataProyectos, setStatus, proyectosState }) => {
   const handleDelete = () => {
     const config = {
       method: "DELETE",
-      url: `${import.meta.env.VITE_URL}/obra/eliminar?id=${idProyecto}`,
+      url: `${import.meta.env.VITE_URL}/proyecto/eliminar/${idProyecto}`,
       headers: {
         //Authorization: `Bearer ${cookie.get("token")}`,
         "Content-Type": "application/json",
@@ -54,30 +54,31 @@ const ViewProject = ({ setDataProyectos, setStatus, proyectosState }) => {
     };
 
     axios
-      .request(config)
-      .then((response) => {
-        if (response.data.status === 200) {
-          const newItems =
-            proyectos.length > 0 &&
-            proyectos?.filter((i) => {
-              return i.idProyecto !== idProyecto;
-            });
-          setDataProyectos(newItems);
-          setStatus("succeeded");
-          setIsLoading(false);
-          setShowModal(false);
-          toast.success("Proyecto eliminado");
-        } else {
-          setIsLoading(true);
-          setStatus("error");
-          toast.error("Error al eliminar el proyecto");
-        }
-      })
-      .catch(() => {
+    .request(config)
+    .then((response) => {
+      if (response.status === 200) {
+        // Filtra el proyecto eliminado del array de proyectos y actualiza el estado
+        const newItems = proyectos.filter((i) => i.idProyecto !== idProyecto);
+
+        // Asegúrate de que el estado se actualice correctamente
+        setDataProyectos([...newItems]); // Usar el spread operator para crear una nueva referencia
+
+        setStatus("succeeded");
+        setIsLoading(false);
+        setShowModal(false);
+        toast.success("Proyecto eliminado");
+      } else {
         setIsLoading(true);
         setStatus("error");
         toast.error("Error al eliminar el proyecto");
-      });
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      setIsLoading(true);
+      setStatus("error");
+      toast.error("Error al eliminar el proyecto");
+    });
   };
 
   useEffect(() => {
