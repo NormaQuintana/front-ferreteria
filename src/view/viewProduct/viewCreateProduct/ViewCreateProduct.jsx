@@ -33,29 +33,56 @@ const ViewCreateProduct = () => {
       return;
     }
 
+    const proveedorSeleccionado = proveedores.find(
+      (prov) => prov.idPersona === proveedor
+    );
+  
+    if (!proveedorSeleccionado) {
+      toast.error("No se encontró el proveedor seleccionado");
+      return;
+    }
+
     const dataToSend = {
-      ...data,
-      idPersona: proveedor,
+      nombre: data.nombre,
+      cantidad: parseFloat(data.cantidad), 
+      stockMinimo: parseFloat(data.stockMinimo), 
+      costo: parseFloat(data.costo), 
+      precioMenudeo: parseFloat(data.precioMenudeo), 
+      precioMayoreo: parseFloat(data.precioMayoreo), 
+      urlImage: data.urlImage || "", 
+      estado: data.estado || "Disponible", 
+      descripcion: data.descripcion || "", 
+      persona: {
+        id: proveedorSeleccionado.idPersona,
+        id_persona: proveedorSeleccionado.idPersona,
+        nombre: proveedorSeleccionado.nombre,
+        telefono: proveedorSeleccionado.telefono,
+        correo: proveedorSeleccionado.correo,
+        rfc: proveedorSeleccionado.rfc,
+        estado: proveedorSeleccionado.estado,
+        rol: proveedorSeleccionado.rol, 
+        direccion: proveedorSeleccionado.direccion 
+      }
     };
 
     console.log(dataToSend);
 
     const config = {
       headers: {
-        Authorization: `Bearer ${cookie.get("token")}`,
+        //Authorization: `Bearer ${cookie.get("token")}`,
         "Content-Type": "application/json",
       },
       method: "POST",
-      url: `${import.meta.env.VITE_URL}/producto/agregar-producto`,
+      url: `${import.meta.env.VITE_URL}/producto/agregar`,
       data: dataToSend,
     };
 
     axios
       .request(config)
-      .then((response) => {
-        if (response.data.message === "Producto registrado correctamente") {
-          toast.success(response.data);
-          navigate("/products");
+        .then((response) => {
+          if (response.status === 200 && response.data.message === "Producto registrado correctamente") {
+            toast.success("Producto agregado correctamente");
+            navigate("/products");
         } else if (
           response.data.message === "El producto ya se encuentra en existencia"
         ) {
@@ -72,9 +99,9 @@ const ViewCreateProduct = () => {
   useEffect(() => {
     const config = {
       method: "GET",
-      url: `${import.meta.env.VITE_URL}/proveedor/obtener`,
+      url: `${import.meta.env.VITE_URL}/proveedor/obtener-todas`,
       headers: {
-        Authorization: `Bearer ${cookie.get("token")}`,
+        //Authorization: `Bearer ${cookie.get("token")}`,
         "Content-Type": "application/json",
       },
     };
@@ -157,7 +184,7 @@ const ViewCreateProduct = () => {
               {proveedores.length > 0 && (
                 <select
                   className="border-[1px] border-solid border-black w-full h-[44px] outline-none shadow-md rounded-md p-1"
-                  onChange={() => setProveedor(event.target.value)}
+                  onChange={(event) => setProveedor(event.target.value)}
                 >
                   <option value="">Seleccionar</option>
                   {proveedores.map((proveedor) => (
