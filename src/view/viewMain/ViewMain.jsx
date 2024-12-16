@@ -1,6 +1,7 @@
 import Header from "../../components/Header/Header";
 import Image from "../../../public/inicio.jpg";
 
+
 const ViewMain = () => {
   return (
     <div>

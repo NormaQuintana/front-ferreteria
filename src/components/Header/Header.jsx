@@ -26,10 +26,11 @@ const Header = () => {
   };
 
   const singOut = () => {
-    const cookies = new Cookies();
-    cookies.remove("rol");
-    cookies.remove("token");
-    navigate("/login");
+    if (window.confirm("¿Estás seguro de que deseas cerrar sesión?")) {
+      const cookies = new Cookies();
+      cookies.remove("rol");
+      navigate("/login");
+    }
   };
 
   useEffect(() => {
@@ -38,14 +39,15 @@ const Header = () => {
 
     if (!rol) {
       navigate("/login");
+    } else if (rolesOptions[rol]) {
+      setMenu(rolesOptions[rol]);
     } else {
-      const { options, urls } = rolesOptions[rol] || { options: [], urls: [] };
-      setMenu({ options, urls });
+      navigate("/error"); // Manejo de roles no reconocidos
     }
   }, []);
 
-  const renderMenu = () => (
-    <ul className="flex flex-col justify-center items-center gap-5 text-[20px]">
+  const MenuList = () => (
+    <>
       <a href="/">
         <li className="hover:underline">Inicio</li>
       </a>
@@ -57,20 +59,25 @@ const Header = () => {
       <a onClick={singOut}>
         <li className="hover:underline">Cerrar Sesión</li>
       </a>
-    </ul>
+    </>
   );
 
   if (isOpen) {
     return (
-      <div className="bg-F58A27 w-screen h-screen relative font-georgia text-white flex justify-center items-center">
-        <IoMdCloseCircle
-          onClick={() => setIsOpen(false)}
-          color="white"
-          size={32}
-          className="absolute right-5 top-5"
-        />
-        {renderMenu()}
-      </div>
+      <>
+        <div className="menu-overlay" onClick={() => setIsOpen(false)} />
+        <div className="bg-F58A27 w-screen h-screen relative font-georgia text-white flex justify-center items-center">
+          <IoMdCloseCircle
+            onClick={() => setIsOpen(false)}
+            color="white"
+            size={32}
+            className="absolute right-5 top-5"
+          />
+          <ul className="flex flex-col justify-center items-center gap-5 text-[20px]">
+            <MenuList />
+          </ul>
+        </div>
+      </>
     );
   }
 
@@ -82,17 +89,7 @@ const Header = () => {
 
       <div className="hidden lg:flex">
         <ul className="flex flex-row justify-center items-center gap-5 text-[20px]">
-          <a href="/">
-            <li className="hover:underline">Inicio</li>
-          </a>
-          {menu.options.map((option, index) => (
-            <a key={index} href={menu.urls[index]}>
-              <li className="hover:underline">{option}</li>
-            </a>
-          ))}
-          <a onClick={singOut}>
-            <li className="hover:underline">Cerrar Sesión</li>
-          </a>
+          <MenuList />
         </ul>
       </div>
 

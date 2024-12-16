@@ -1,10 +1,9 @@
+import { useState } from "react";
 import TextField from "../../components/Form/TextField/TextField";
 import Button from "../../components/Buttons/Button";
 import Logo from "../../../public/bitmap.png";
-
 import { FormProvider, useForm } from "react-hook-form";
 import { IoIosEyeOff } from "react-icons/io";
-import { useState } from "react";
 import axios from "axios";
 import { Cookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
@@ -25,27 +24,31 @@ const ViewLogin = () => {
   const onSubmit = (data) => {
     setIsError("");
     setIsLoadingView(true);
+
     if (data.usuario !== "" && data.contrasena !== "") {
       const params = new URLSearchParams();
       params.append("usuario", data.usuario);
       params.append("contrasena", data.contrasena);
 
       axios
-        .post(`${import.meta.env.VITE_URL}/validar`, params)
+        .post(`${import.meta.env.VITE_URL}/validar`, params, {
+          withCredentials: true,
+        })
         .then((res) => {
+          console.log("Respuesta del servidor:", res.data);
           if (res.data === "Usuario o contraseña incorrectos") {
             setIsError(res.data);
-            setIsLoadingView(false);
           } else if (res.data === "Usuario autenticado") {
-            const { access_token, rol } = res.headers;
-            cookies.set("token", access_token, { path: "/" });
-            cookies.set("rol", rol, { path: "/" });
+            console.log("Navegando a la página principal...");
             navigate("/");
           }
         })
         .catch((err) => {
+          console.error(err);
+          setIsError("Ocurrió un error durante la autenticación.");
+        })
+        .finally(() => {
           setIsLoadingView(false);
-          console.log(err);
         });
     }
   };
@@ -84,16 +87,14 @@ const ViewLogin = () => {
             name="contrasena"
             type="password"
             isIcon={true}
-            Icon={IoIosEyeOff}
-            placeholder={"Usuario o correo"}
+            Icon={<IoIosEyeOff />}
+            placeholder={"Contraseña"}
             register={methods.register}
             isError={!!methods?.formState.errors?.contrasena?.message}
             Error={methods?.formState.errors?.contrasena?.message}
           />
 
-          {isError !== "" && (
-            <p className="text-error text-s pl-2">{isError}</p>
-          )}
+          {isError && <p className="text-error text-s pl-2">{isError}</p>}
 
           <div className="lg:w-[300px] h-[40px]">
             <Button
