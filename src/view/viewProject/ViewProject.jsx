@@ -57,11 +57,8 @@ const ViewProject = ({ setDataProyectos, setStatus, proyectosState }) => {
     .request(config)
     .then((response) => {
       if (response.status === 200) {
-        // Filtra el proyecto eliminado del array de proyectos y actualiza el estado
         const newItems = proyectos.filter((i) => i.idProyecto !== idProyecto);
-
-        // Asegúrate de que el estado se actualice correctamente
-        setDataProyectos([...newItems]); // Usar el spread operator para crear una nueva referencia
+        setDataProyectos([...newItems]);
 
         setStatus("succeeded");
         setIsLoading(false);
