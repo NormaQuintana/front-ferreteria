@@ -12,16 +12,16 @@ const Header = () => {
 
   const rolesOptions = {
     Gerente: {
-      options: ["Usuario", "Paquetes", "Ofertas", "Reporte"],
-      urls: ["/users", "/list-package", "/offers", "/generate-report"],
+      options: ["Usuarios"],
+      urls: ["/users"],
     },
     Administrador: {
-      options: ["Proveedor", "Producto", "Reporte"],
-      urls: ["/supliers", "/products", "/report-damage-product"],
+      options: ["Proveedores", "Productos"],
+      urls: ["/supliers", "/products"],
     },
     Vendedor: {
-      options: ["Proyecto", "Venta", "Producto", "Paquetes"],
-      urls: ["/proyecto", "/sale", "/products", "/list-package"],
+      options: ["Proyectos", "Ventas", "Productos"],
+      urls: ["/proyecto", "/sale", "/products"],
     },
   };
 
@@ -42,7 +42,7 @@ const Header = () => {
     } else if (rolesOptions[rol]) {
       setMenu(rolesOptions[rol]);
     } else {
-      navigate("/error"); // Manejo de roles no reconocidos
+      navigate("/error");
     }
   }, []);
 

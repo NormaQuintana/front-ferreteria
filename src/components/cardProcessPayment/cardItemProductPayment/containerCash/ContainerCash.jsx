@@ -59,7 +59,7 @@ const ContainerCash = ({ totalPagar, pago }) => {
         <Button
           background={"bg-primary"}
           isIcon={false}
-          texto="Calcular cambio"
+          texto="Pagar"
           type="button"
           Icon={false}
           isLoading={isLoading}

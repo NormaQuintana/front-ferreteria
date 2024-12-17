@@ -2,14 +2,12 @@ import { MdDelete, MdEdit } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
 const CardPresentationProject = ({ proyecto, showModal, changeStateID }) => {
-  //console.log(proyecto);
   const {
     idProyecto,
     persona,
     direccionProyecto,
   } = proyecto;
 
-  // Desestructurar datos de la persona y la dirección del proyecto
   const { nombre, telefono, correo } = persona || {};
   const { calle: callePersona, numero: numeroPersona, colonia: coloniaPersona, ciudad: ciudadPersona } = persona?.direccionPersona || {};
   const { calle: calleProyecto, numero: numeroProyecto, colonia: coloniaProyecto, ciudad: ciudadProyecto } = direccionProyecto || {};
@@ -28,7 +26,7 @@ const CardPresentationProject = ({ proyecto, showModal, changeStateID }) => {
   return (
     <div className="bg-white rounded-md shadow-md w-[90%] p-5 flex flex-row justify-between items-center">
       <div className="w-[50%]">
-        <p className="text-[18px] lg:text-[24px] font-bold">Proyecto #1</p>
+        <p className="text-[18px] lg:text-[24px] font-bold">Proyecto...</p>
         <article className="">
           <h3 className="font-bold mb-5">Encargado</h3>
           <p>Nombre: {nombre || "N/A"}</p>

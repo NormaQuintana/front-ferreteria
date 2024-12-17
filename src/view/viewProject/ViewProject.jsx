@@ -29,8 +29,8 @@ const ViewProject = ({ setDataProyectos, setStatus, proyectosState }) => {
   const [idProyecto, setIdProyecto] = useState("");
 
   const filterProyecto = proyectos.filter((proyecto) => {
-    const nombre = proyecto.nombre || "";  // Si proyecto.nombre es undefined, se asigna una cadena vacía
-    const busqueda = methods.watch("busqueda") || "";  // Si methods.watch("busqueda") es undefined, se asigna una cadena vacía
+    const nombre = proyecto.nombre || "";
+    const busqueda = methods.watch("busqueda") || "";
   
     return nombre.toLowerCase().includes(busqueda.toLowerCase());
   });
