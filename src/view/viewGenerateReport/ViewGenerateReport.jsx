@@ -86,7 +86,7 @@ const ViewGenerateReport = () => {
               }}
               className="w-full border-b-[1px] border-solid border-black p-2 outline-none"
             >
-              <option value="">Seleccionar</option>
+              <option value="">Debe seleccionar una opccion</option>
               <option value="diario">Diario</option>
               <option value="semanal">Semanal</option>
               <option value="mensual">Mensual</option>
@@ -111,7 +111,7 @@ const ViewGenerateReport = () => {
       {masVendidos.length !== 0 && menosVendidos.length !== 0 ? (
         <div className="my-10 flex flex-col justify-center items-center gap-11">
           <div>
-            <h3 className="font-bold text-center">Productos más vendidos</h3>
+            <h3 className="font-bold text-center">Productos más vendidos aqui:</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {masVendidos.length > 0 ? (
                 masVendidos.map((producto) => (
@@ -135,7 +135,7 @@ const ViewGenerateReport = () => {
           </div>
 
           <div>
-            <h3 className="font-bold text-center">Productos menos vendidos</h3>
+            <h3 className="font-bold text-center">Productos menos vendidos aqui:</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {menosVendidos.length > 0 ? (
                 menosVendidos.map((producto) => (

@@ -10,7 +10,6 @@ import { Cookies } from "react-cookie";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-
 const ViewAddUser = () => {
   const methods = useForm({
     resolver: zodResolver(User),
@@ -35,12 +34,7 @@ const ViewAddUser = () => {
     const rolSeleccionado = roles.find(rol => rol.nombre === rolNombre);
     setRolSeleccionado(rolSeleccionado); 
   };
-
   const onSubmit = (data) => {
-    /* if (tipoView.tipo === "" || tipoView.tipo === undefined) {
-      setTipoView({ ...tipoView, error: true });
-      return;
-    } */
 
       const dataToSend = {
         usuario: data.usuario,
@@ -73,7 +67,6 @@ const ViewAddUser = () => {
       url: `${import.meta.env.VITE_URL}/usuario/agregar`,
       headers: {
         "Content-Type": "application/json",
-        //Authorization: `Bearer ${cookie.get("token")}`,
       },
       body: JSON.stringify(dataToSend),
       data: dataToSend,
@@ -108,7 +101,7 @@ const ViewAddUser = () => {
 
       <div className="flex flex-row items-center gap-2 w-full p-5 pl-4 justify-start">
         <IoArrowBackOutline size={32} />
-        <p className="font-bold text-left text-[18px]">Agregar Usuario</p>
+        <p className="font-bold text-left text-[18px]">Agregar usuario</p>
       </div>
 
       <form
@@ -118,7 +111,7 @@ const ViewAddUser = () => {
         <FormProvider {...methods}>
           <div className="flex flex-col gap-5 w-full mt-4">
             <div className="mt-1 text-lg w-full text-left px-14">
-              <b className="text-[25px]">Información Personal</b>
+              <b className="text-[25px]">Información personal</b>
             </div>
 
             <TextField
@@ -222,7 +215,7 @@ const ViewAddUser = () => {
             />
 
             <div className="mt-1 text-lg w-full text-left px-14">
-              <b className="text-[25px]">Información de Empleado</b>
+              <b className="text-[25px]">Información de empleado</b>
             </div>
 
             <div className="flex flex-col w-full">
@@ -238,7 +231,7 @@ const ViewAddUser = () => {
               >
                 <option value="">Seleccionar</option>
                 <option value="Vendedor">Vendedor</option>
-                <option value="Administrador">Administrador de Almacen</option>
+                <option value="Administrador">Administrador de almacen</option>
                 <option value="Gerente">Gerente</option>
               </select>
               {tipoView.error && (

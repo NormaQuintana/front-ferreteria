@@ -19,7 +19,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { SchemaPackage } from "../../schema/SchemaPackage";
 import { useNavigate } from "react-router-dom";
 import SuplierLoading from "../../components/Loadings/SuplierLoading/SuplierLoading";
-
 const ViewAddPackage = ({ setStatus, setDataProducts, products }) => {
   const methods = useForm({
     resolver: zodResolver(SchemaPackage),
@@ -31,7 +30,6 @@ const ViewAddPackage = ({ setStatus, setDataProducts, products }) => {
   const navigate = useNavigate();
   const [isLoadingSubmmit, setIsLoadingSubmit] = useState(false);
   const [isLoadinView, setIsLoadingView] = useState(false);
-
   const addProductsToList = (p) => {
     const productExists = listProducts.find(
       (product) => product.idProducto === p.idProducto
@@ -58,7 +56,6 @@ const ViewAddPackage = ({ setStatus, setDataProducts, products }) => {
       method: "GET",
       url: `${import.meta.env.VITE_URL}/producto/obtener-productos`,
     };
-
     setStatus("loading");
     axios
       .request(config)
@@ -188,7 +185,7 @@ const ViewAddPackage = ({ setStatus, setDataProducts, products }) => {
 
             <div className="w-full my-5">
               <p className="font-bold lg:text-[22px]">
-                Lista del Productos Seleccionados
+                Lista del Productos seleccionados
               </p>
               <ol>
                 {listProducts.map((product, index) => (
@@ -236,5 +233,4 @@ const mapDispatchToProps = (dispatch) => {
     setStatus: (status) => dispatch(actualizarStatus(status)),
   };
 };
-
 export default connect(mapStateToProps, mapDispatchToProps)(ViewAddPackage);

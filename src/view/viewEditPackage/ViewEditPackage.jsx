@@ -7,7 +7,6 @@ import { SchemaPackage } from "../../schema/SchemaPackage";
 import TextField from "../../components/Form/TextField/TextField";
 import TextArea from "../../components/Form/TextArea/TextArea";
 
-
 const ViewEditPackage = () => {
   const methods = useForm({
     resolver: zodResolver(SchemaPackage),
@@ -70,7 +69,7 @@ const ViewEditPackage = () => {
         <br />
         <ol className="list-decimal list-inside">
           <li>Martillo</li>
-          <li>Clavo 1p</li>
+          <li>Clavo </li>
         </ol>
       </div>
       <div className="w-full flex justify-end mt-8 max-w-[600px] ml-[400px]">

@@ -1,12 +1,12 @@
 import Logo from "../../image/Logo";
 import TextField from "../../components/Form/TextField/TextField";
 import Button from "../../components/Buttons/Button";
-
 import { FormProvider, useForm } from "react-hook-form";
 import { useState } from "react";
 import axios from "axios";
 import SearchLoading from "../../components/Loadings/SearchLoading/SearchLoading";
 import { Cookies } from "react-cookie";
+
 
 const ViewForgetPassword = () => {
   const methods = useForm();
@@ -71,7 +71,7 @@ const ViewForgetPassword = () => {
                 register={methods.register}
               />
               {isError && (
-                <p className="pl-2 text-error">El correo es requerido</p>
+                <p className="pl-2 text-error">El correo es estrictamente requerido</p>
               )}
               <div className="w-[100%] my-2">
                 <Button

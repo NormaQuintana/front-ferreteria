@@ -69,7 +69,7 @@ const ViewCreateProduct = () => {
 
     const config = {
       headers: {
-        //Authorization: `Bearer ${cookie.get("token")}`,
+       
         "Content-Type": "application/json",
       },
       method: "POST",
@@ -101,7 +101,7 @@ const ViewCreateProduct = () => {
       method: "GET",
       url: `${import.meta.env.VITE_URL}/proveedor/obtener-todas`,
       headers: {
-        //Authorization: `Bearer ${cookie.get("token")}`,
+       
         "Content-Type": "application/json",
       },
     };

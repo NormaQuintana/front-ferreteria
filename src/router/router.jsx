@@ -16,7 +16,6 @@ import ViewAddUser from "../view/viewAddUser/ViewAddUser.jsx";
 import ViewSettings from "../view/viewSettings/ViewSettings.jsx";
 import ViewUser from "../view/viewUser/ViewUser.jsx";
 import NotFound from "../view/notFound/index.jsx";
-
 const router = createBrowserRouter([
   {
     path: "/",
@@ -91,6 +90,8 @@ const router = createBrowserRouter([
     element: <NotFound />,
   },
 ]);
+
+
 
 const AppRouter = () => {
   return <RouterProvider router={router} />;

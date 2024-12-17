@@ -1,6 +1,6 @@
 import Header from "../../components/Header/Header";
 import Image from "../../../public/inicio.jpg";
-
+/*Vista del log in*/ 
 
 const ViewMain = () => {
   return (
