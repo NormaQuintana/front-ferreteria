@@ -8,8 +8,6 @@ const ProtectedRoute = (element, requiredRole) => {
   if (userRole && (!requiredRole || userRole === requiredRole)) {
     return element;
   }
-
-  // Si no cumple los requisitos, redirigir al login
   return <Navigate to="/login" replace />;
 };
 

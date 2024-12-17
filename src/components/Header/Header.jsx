@@ -4,19 +4,17 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { IoMdCloseCircle } from "react-icons/io";
 import { Cookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [menu, setMenu] = useState({ options: [], urls: [] });
   const navigate = useNavigate();
-
   const rolesOptions = {
     Gerente: {
-      options: ["Usuarios"],
+      options: ["Usuarioos"],
       urls: ["/users"],
     },
     Administrador: {
-      options: ["Proveedores", "Productos"],
+      options: ["Provedores", "Productos"],
       urls: ["/supliers", "/products"],
     },
     Vendedor: {
@@ -32,7 +30,6 @@ const Header = () => {
       navigate("/login");
     }
   };
-
   useEffect(() => {
     const cookies = new Cookies();
     const rol = cookies.get("rol");
@@ -45,7 +42,6 @@ const Header = () => {
       navigate("/error");
     }
   }, []);
-
   const MenuList = () => (
     <>
       <a href="/">
@@ -61,7 +57,6 @@ const Header = () => {
       </a>
     </>
   );
-
   if (isOpen) {
     return (
       <>
@@ -92,7 +87,6 @@ const Header = () => {
           <MenuList />
         </ul>
       </div>
-
       <RxHamburgerMenu
         onClick={() => setIsOpen(true)}
         color="white"
@@ -102,5 +96,4 @@ const Header = () => {
     </div>
   );
 };
-
 export default Header;
