@@ -38,7 +38,7 @@ const ViewProcessPayment = () => {
               </form>
             </FormProvider>
 
-            {/* Varias líneas que simulan un código de barras */}
+           
             <div className="flex items-center ml-2 space-x-0">
               <div className="border-l border-gray-1000 h-8 w-[1px]"></div>
               <div className="border-l border-gray-1000 h-8 w-[2px]"></div>

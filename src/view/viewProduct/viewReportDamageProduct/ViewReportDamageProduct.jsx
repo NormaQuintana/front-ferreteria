@@ -86,7 +86,7 @@ const ViewReportDamageProduct = () => {
         </div>
 
         <form
-          onSubmit={methods.handleSubmit(onSubmit)} // Usamos la función onSubmit aquí
+          onSubmit={methods.handleSubmit(onSubmit)} 
           className="flex flex-col justify-evenly items-center gap-5 lg:flex-row lg:items-start lg:justify-center"
         >
           <FormProvider {...methods}>

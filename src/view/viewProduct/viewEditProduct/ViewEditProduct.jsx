@@ -243,7 +243,6 @@ const ViewEditProduct = ({ productosState }) => {
     </div>
   );
 };
-
 ViewEditProduct.propTypes = {
   setDataProducts: PropTypes.func.isRequired,
   productosState: PropTypes.any,
@@ -262,5 +261,4 @@ const mapDispatchToProps = (dispatch) => {
     setStatus: (status) => dispatch(actualizarStatus(status)),
   };
 };
-
 export default connect(mapStateToProps, mapDispatchToProps)(ViewEditProduct);
