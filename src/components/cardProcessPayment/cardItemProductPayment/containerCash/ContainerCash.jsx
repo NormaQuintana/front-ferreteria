@@ -4,80 +4,29 @@ import Button from "../../../Buttons/Button";
 import toast from "react-hot-toast";
 import { Cookies } from "react-cookie";
 import { connect } from "react-redux";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const ContainerCash = ({ totalPagar, pago }) => {
+  const navigate = useNavigate();
   const [efectivo, setEfectivo] = useState(0);
   const [cambio, setCambio] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-  const cookie = new Cookies();
-  const { productos } = pago;
 
   const onSubmit = (e) => {
     e.preventDefault();
+
     if (efectivo === 0) {
       toast.error("Ingresa la cantidad de efectivo");
     } else if (efectivo < totalPagar) {
       toast.error("La cantidad de efectivo es menor al total a pagar");
     } else {
-      const conf = {
-        method: "POST",
-        url: `${import.meta.env.VITE_URL}/venta/guardar`,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${cookie.get("token")}`,
-        },
-        body: {
-          total: totalPagar,
-          pago: efectivo,
-          productos,
-        },
-        data: {
-          total: totalPagar,
-          pago: efectivo,
-          productos,
-        },
-      };
-
-      setIsLoading(true);
-      axios
-        .request(conf)
-        .then((res) => {
-          if (res.data === "Venta guardada exitosamente") {
-            const conftP = {
-              method: "GET",
-              url: `${import.meta.env.VITE_URL}/producto/poco-stock`,
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${cookie.get("token")}`,
-              },
-            };
-
-            axios
-              .request(conftP)
-              .then((res) => {
-                if (res.data.length > 0) {
-                  toast.success(
-                    `Su venta ha sido procesada, sin embargo, los siguientes productos están en poco stock ${res.data.map(
-                      (p) => {
-                        return p;
-                      }
-                    )}`
-                  );
-                  window.location.reload();
-                } else {
-                  toast.success("Venta guardada exitosamente");
-                  window.location.reload();
-                }
-              })
-              .catch(() => {
-                toast.error("Error al procesar el pago");
-              });
-          }
-        })
-        .catch(() => {
-          toast.error("Error al procesar el pago");
-        });
+      const cambioCalculado = efectivo - totalPagar;
+      setCambio(cambioCalculado);
+      toast.success(`Venta completada exitosamente`);
+      console.log("Cambio calculado:", cambioCalculado);
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000); 
     }
   };
 
@@ -110,8 +59,8 @@ const ContainerCash = ({ totalPagar, pago }) => {
         <Button
           background={"bg-primary"}
           isIcon={false}
-          texto="Pagar"
-          type="submit"
+          texto="Calcular cambio"
+          type="button"
           Icon={false}
           isLoading={isLoading}
           onClick={onSubmit}
@@ -121,7 +70,7 @@ const ContainerCash = ({ totalPagar, pago }) => {
   );
 };
 
-ContainerCash.prototype = {
+ContainerCash.propTypes = {
   totalPagar: PropTypes.number.isRequired,
   pago: PropTypes.object,
 };

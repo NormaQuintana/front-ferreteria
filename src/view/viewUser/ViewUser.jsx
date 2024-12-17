@@ -20,7 +20,7 @@ const ViewUser = ({ setDataUsuarios, usuariosState, setStatus }) => {
 
   const onSelectUser = (user) => {
     console.log(user);
-    setIsSelectItem(user);  // Actualiza el usuario seleccionado
+    setIsSelectItem(user);  
   };
 
   useEffect(() => {
@@ -41,7 +41,7 @@ const ViewUser = ({ setDataUsuarios, usuariosState, setStatus }) => {
     axios
     .request(config)
     .then((response) => {
-      // Filtra los usuarios que tienen estado "Disponible"
+    
       const usuariosActivos = response.data.filter(user => user.estado === "Disponible");
       setDataUsuarios(usuariosActivos);
       setIsLoadingView(false);
