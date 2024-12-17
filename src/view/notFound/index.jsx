@@ -1,6 +1,6 @@
 import Header from "../../components/Header/Header";
 import Image from "../../../public/404.jpg";
-
+/*En caso de no encontrar respuesta*/ 
 const NotFound = () => {
   return (
     <>
