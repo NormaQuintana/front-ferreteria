@@ -47,7 +47,7 @@ const ViewSales = ({
           "Content-Type": "application/json",
         },
         method: "GET",
-        url: `${import.meta.env.VITE_URL}/producto/obtener-productos`,
+        url: `${import.meta.env.VITE_URL}/producto/obtener-todas`,
       };
 
       setStatus("loading");

@@ -2,6 +2,7 @@ import { IoIosCloseCircle } from "react-icons/io";
 
 const CardItemProduct = ({ urlImage, cantidad, precioUnitario, deleteProduct, id }) => {
   const total = cantidad * precioUnitario;
+  console.log("id del producto:", id);
   return (
     <div className="flex flex-row justify-evenly items-center gap-5 text-center">
       <img

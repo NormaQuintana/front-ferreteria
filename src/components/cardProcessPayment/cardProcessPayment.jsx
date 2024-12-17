@@ -16,18 +16,66 @@ const CardProcessPayment = ({ pago, changeViewProcess }) => {
   const [total, setTotal] = useState(totalVenta);
 
   const deleteProduct = (id) => {
-    const newProducts = filtrado.filter((producto) => {
-      if (producto.idProducto === id) {
-        const totalK = producto.cantidadCompra * producto.precioMenudeo;
-        setTotal(totalVenta - totalK);
-      } else {
-        return producto.idProducto !== id;
-      }
-    });
-    if (newProducts.length === 0) {
-      window.location.reload();
+    console.log("El id del producto a eliminar es:", id);
+    const productoEliminado = filtrado.find((producto) => producto.idProducto === id);
+    if (productoEliminado) {
+      const cantidadRestar = productoEliminado.cantidadCompra;
+  
+      console.log("Cantidad a restar:", cantidadRestar);
+
+      console.log("Enviando solicitud PUT con los siguientes datos:", {
+        idProducto: productoEliminado.idProducto,
+        cantidad: cantidadRestar,
+        codigo: productoEliminado.codigo,
+        nombre: productoEliminado.nombre,
+        cantidad: productoEliminado.cantidad,
+        stockMinimo: productoEliminado.stockMinimo,
+        costo: productoEliminado.costo,
+        precioMenudeo: productoEliminado.precioMenudeo,
+        precioMayoreo: productoEliminado.precioMayoreo,
+        urlImage: productoEliminado.urlImage,
+        estado: productoEliminado.estado,
+        descripcion: productoEliminado.descripcion,
+        persona: productoEliminado.persona
+      });
+  
+      axios
+        .put("/producto/reducir-stock", {
+          idProducto: producto.idProducto,
+          cantidad: producto.cantidadCompra,
+          codigo: producto.codigo,
+          nombre: producto.nombre,
+          cantidad: producto.cantidad,
+          stockMinimo: producto.stockMinimo,
+          costo: producto.costo,
+          precioMenudeo: producto.precioMenudeo,
+          precioMayoreo: producto.precioMayoreo,
+          urlImage: producto.urlImage,
+          estado: producto.estado,
+          descripcion: producto.descripcion,
+          persona: producto.persona,
+        })
+        .then((response) => {
+          console.log("Respuesta del backend:", response.data);
+  
+          const totalK = cantidadRestar * productoEliminado.precioMenudeo;
+          setTotal((prevTotal) => prevTotal - totalK);
+  
+          const newProducts = filtrado.filter(
+            (producto) => producto.idProducto !== id
+          );
+  
+          setFiltrado(newProducts);
+  
+          if (newProducts.length === 0) {
+            window.location.reload();
+          }
+        })
+        .catch((error) => {
+          console.error("Error al reducir el stock:", error);
+          toast.error("No se pudo actualizar el stock del producto");
+        });
     }
-    setFiltrado(newProducts);
   };
 
   return (
@@ -51,7 +99,7 @@ const CardProcessPayment = ({ pago, changeViewProcess }) => {
             <div>
               {filtrado?.map((producto) => (
                 <CardItemProductPayment
-                  key={producto.id}
+                  key={producto.idProducto}
                   id={producto.idProducto}
                   urlImage={producto.urlImage}
                   cantidad={producto.cantidadCompra}
