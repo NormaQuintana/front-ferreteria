@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 import { dataOfertas } from "../../../store/slices/offer/offer_reducer";
 import { FaPlus } from "react-icons/fa6";
 import SuplierLoading from "../../../components/Loadings/SuplierLoading/SuplierLoading";
-
+//Ofertas
 const ViewListOffer = ({ setDataOfertas, ofertasState }) => {
   const cookie = new Cookies();
 
@@ -90,7 +90,7 @@ const ViewListOffer = ({ setDataOfertas, ofertasState }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 my-10 justify-center gap-5">
           {filterBusqueda.length === 0 ? (
             <p className="text-center font-bold text-[24px]">
-              No se han podido cargar las ofertas
+              Lamentablemente no se han podido cargar las ofertas
             </p>
           ) : (
             filterBusqueda.map((oferta) => (

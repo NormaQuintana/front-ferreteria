@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Header from "../../components/Header/Header";
-import { FaTrash, FaPen, FaPlus } from "react-icons/fa"; // Íconos de editar y borrar
-import { FaBoxOpen } from "react-icons/fa"; // Ícono de la caja
+import { FaTrash, FaPen, FaPlus } from "react-icons/fa"; 
+import { FaBoxOpen } from "react-icons/fa";
 import { Cookies } from "react-cookie";
 import axios from "axios";
 import toast from "react-hot-toast";
