@@ -1,5 +1,4 @@
 import { MdDelete, MdEdit } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
 
 const CardPresentationProject = ({ proyecto, showModal, changeStateID }) => {
   const {
@@ -16,12 +15,6 @@ const CardPresentationProject = ({ proyecto, showModal, changeStateID }) => {
     changeStateID(idProyecto);
     showModal();
   };
-
-  const navigate = useNavigate();
-
-  const handleEdit = () => {
-    navigate(`/edit-project/${idProyecto}`);
-  }
 
   return (
     <div className="bg-white rounded-md shadow-md w-[90%] p-5 flex flex-row justify-between items-center">
@@ -61,7 +54,6 @@ const CardPresentationProject = ({ proyecto, showModal, changeStateID }) => {
             color="black"
             className="cursor-pointer"
           />
-          <MdEdit onClick={handleEdit} size={32} color="black" className="cursor-pointer" />
         </div>
       </div>
     </div>

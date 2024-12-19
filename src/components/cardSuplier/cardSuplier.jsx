@@ -1,12 +1,11 @@
 import PropTypes from "prop-types";
 import { FaPhone } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
-import { MdEdit, MdDelete } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
 import { FaTruck } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
 
 const Card = ({ id, nombre, telefono, correo, direccion, handleModal }) => {
-  const navigate = useNavigate();
+
 
   return (
     <div
@@ -18,6 +17,8 @@ const Card = ({ id, nombre, telefono, correo, direccion, handleModal }) => {
           <h2 className="font-bold text-[20px]">Empresa</h2>
           <p className="text-[16px]">{nombre}</p>
           <p className="text-[16px]">{direccion}</p>
+          <p className="text-[16px]">{telefono}</p>
+          <p className="text-[16px]">{correo}</p>
         </article>
 
         <div className="flex gap-3 flex-col">
@@ -30,12 +31,6 @@ const Card = ({ id, nombre, telefono, correo, direccion, handleModal }) => {
         <FaTruck className="cursor-pointer" size={32} color="#F58A27" />
 
         <div className="flex flex-row gap-1">
-          <MdEdit
-            className="cursor-pointer"
-            size={32}
-            color="#F58A27"
-            onClick={() => navigate(`/edit-suplier/${id}`)}
-          />
           <MdDelete
             onClick={handleModal}
             className="cursor-pointer"
